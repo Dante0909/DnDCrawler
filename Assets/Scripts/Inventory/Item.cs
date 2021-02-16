@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Item
 {
-    string name = "Default name";
-    string description = "Default description";
-
+    public string name = "Default name";
+    public string description = "Default description";
+    
     public abstract void OnDelete();
     public abstract void OnGrab();
-
+    public abstract Sprite GetSprite();
 }

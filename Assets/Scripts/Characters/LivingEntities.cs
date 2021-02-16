@@ -11,15 +11,16 @@ public abstract class LivingEntities : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
     [SerializeField] private int motivation;
-
+    private const int maxMotivation = 100;
     //Not every class may have mana but to avoid alot of inheritance I will put mana in here
     //If thats not liked I can create a subclass MagicEntites where this can be placed
     //for now just for warrior and thief set mana to 0
     [SerializeField] private int mana;
     [SerializeField] private int maxMana;
 
-    //Probably need some sort of attack stat for combat
-    // or can go a component based approach and create a fighter script
+
+    [SerializeField] private int attackStat;
+    [SerializeField] private Skills skill;
 
     [SerializeField] private bool isDead = false;
 
@@ -38,6 +39,8 @@ public abstract class LivingEntities : MonoBehaviour
 
     //Is Dead can be used to determine if actions are possible
     public bool IsDead { get => isDead; }
+    public int AttackStat { get => attackStat; set => attackStat = value; }
+    public Skills Skill { get => skill; set => skill = value; }
 
     #endregion Properties
 
@@ -54,7 +57,7 @@ public abstract class LivingEntities : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if(health<=0)
+        if (health <= 0)
         {
             Die();
         }
@@ -81,5 +84,71 @@ public abstract class LivingEntities : MonoBehaviour
         isDead = true;
         //Add Death SFX and other functionalites 
 
+    }
+
+    /// <summary>
+    /// Attack takes a target livingEntity and will check if it crits then perform an attack
+    /// based on your attackStat
+    /// </summary>
+    /// <param name="target"></param>
+    public virtual void Attack(LivingEntities target)
+    {
+        int hitchance = CalcHitChance();
+        if (DiceRoller.RollDice() < hitchance)
+        {
+            int critChance = CalcCritChance();
+            int damageToDeal = DiceRoller.RollDice() < critChance ? (int)(AttackStat * 1.5) : AttackStat;
+            target.TakeDamage(damageToDeal);
+        }
+
+    }
+    public virtual void Attack(LivingEntities target, int attackDamage)
+    {
+        int hitchance = CalcHitChance();
+        if (DiceRoller.RollDice() < hitchance)
+        {
+            int critChance = Motivation / 5;
+            int damageToDeal = DiceRoller.RollDice() < critChance ? (int)(attackDamage * 1.5) : attackDamage;
+            target.TakeDamage(damageToDeal);
+        }
+
+    }
+    public virtual void AttackWithHitPenalty(LivingEntities target, int attackDamage,int hitPenalty)
+    {
+        int hitchance = CalcHitChance(hitPenalty);
+        if (DiceRoller.RollDice() < hitchance)
+        {
+            int critChance = Motivation / 5;
+            int damageToDeal = DiceRoller.RollDice() < critChance ? (int)(attackDamage * 1.5) : attackDamage;
+            target.TakeDamage(damageToDeal);
+        }
+
+    }
+
+    public int CalcCritChance()
+    {
+        return Motivation / 5;
+    }
+
+
+    public bool Manacheck(int manacost)
+    {
+        return Mana >= manacost;
+    }
+    public void DeductMana(int manacost)
+    {
+        Mana = Mana - manacost < 0 ? 0 : Mana - manacost;
+    }
+    public int CalcHitChance()
+    {
+        return (int)(100 - (maxMotivation - Motivation*1.25));
+    }
+    public int CalcHitChance(int hitPenalty)
+    {
+        return (int)(100 - (maxMotivation - Motivation*1.25-hitPenalty));
+    }
+    protected virtual void UseSkill(LivingEntities target)
+    {
+        skill.CastSkill(target, this);
     }
 }

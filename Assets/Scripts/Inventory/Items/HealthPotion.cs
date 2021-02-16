@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class HealthPotion : ConsumableItem
+[System.Serializable]
+public class HealthPotion : ConsumableItemA
 {
     public HealthPotion()
     {
         name = "Health potion";
         description = "Potion that heals a traveller of your choice.";
+        isUsableInCombat = true;
     }
 
     public override Sprite GetSprite()
@@ -17,7 +18,7 @@ public class HealthPotion : ConsumableItem
 
     public override void OnConsumed()
     {
-        //heal player
+        Debug.Log("health potion");
     }
 
     public override void OnDelete()

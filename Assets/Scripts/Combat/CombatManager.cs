@@ -17,32 +17,31 @@ public class CombatManager : MonoBehaviour
     #endregion SingleTon
     public bool isPlayerTurn;
     public bool isSelectingEnemy = false;
+    public enum action { Attack, Skill}
+    public action option;
     [SerializeField]private GameObject buttonParentHero;
-    public LivingEntities selectedEntity;
+  
     [SerializeField] private List<EnemyEntity> currentEnemies = new List<EnemyEntity>();
     bool onlyonce = true;
     [SerializeField] private List<LivingEntities> allLivingHeroes = new List<LivingEntities>();
+    private GameManager gameManager;
+
+    //Cached Buttons
+    private Button WarriorBtn;
+    private Button MageBtn;
+    private Button ThiefBtn;
+    private Button PriestBtn;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        GatherEnenmyForFight();
-        GatherHeroForFight();
+        gameManager = GameManager.instance;
+        ThiefBtn = buttonParentHero.transform.Find("ThiefSelect").gameObject.GetComponent<Button>();
+        WarriorBtn = buttonParentHero.transform.Find("WarriorSelect").gameObject.GetComponent<Button>();
+        MageBtn=buttonParentHero.transform.Find("MageSelect").gameObject.GetComponent<Button>();
+        PriestBtn = buttonParentHero.transform.Find("PriestSelect").gameObject.GetComponent<Button>();
     }
-    
     // Update is called once per frame
-    void Update()
-    {
-        
-         if(Input.GetButton("Jump"))
-         {
-            if (onlyonce)
-            {
-                onlyonce = false;
-                NowPlayerTurn();
-            }
-         }
-        
-    }
 
     public void DecideWhoTurn()
     {
@@ -81,7 +80,6 @@ public class CombatManager : MonoBehaviour
             allLivingHeroes.Add(icons[i].GetComponent<LivingEntities>());
         }
     }
-
     public void StartEnemyTurn()
     {
         isPlayerTurn = false;
@@ -93,13 +91,11 @@ public class CombatManager : MonoBehaviour
         }
         NowPlayerTurn();
     }
-
     public void NowPlayerTurn()
     {
         isPlayerTurn = true;
         TurnOnButton();
     }
-
     public void TurnOnButton()
     {
         Button[] buton = buttonParentHero.GetComponentsInChildren<Button>();
@@ -122,5 +118,66 @@ public class CombatManager : MonoBehaviour
         skillGUI.SetActive(false);
     }
 
+    public void PerformAction(EnemyEntity Target)
+    {
+            GameObject skillGUI = GameObject.Find("ActionSelection");
+            skillGUI.SetActive(false);
+        switch (option)
+        {
+            case action.Attack:
+               gameManager.selectedEntity.Attack(Target);
+                gameManager.selectedEntity.DidTurn = true;
+                isSelectingEnemy = false;
+                Target.SelectorSprite.SetActive(false);
+                CheckIfAllPlayersHaveGone();
+                break;
+            case action.Skill:
+                gameManager.selectedEntity.UseSkill(Target);
+                gameManager.selectedEntity.DidTurn = true;
+                isSelectingEnemy = false;
+                Target.SelectorSprite.SetActive(false);
+                CheckIfAllPlayersHaveGone();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void CheckIfAllPlayersHaveGone()
+    {
+        TurnOffPlayerButton();
+        foreach (LivingEntities hero in allLivingHeroes)
+        {
+            if(!hero.DidTurn)
+            {
+                return;
+            }
+        }
+        Debug.Log("All Have Gone");
+        StartEnemyTurn();
+        
+    }
+
+    public void TurnOffPlayerButton()
+    {
+
+        if (gameManager.selectedEntity.GetType() == typeof(Warrior))
+        {
+            WarriorBtn.interactable = false;
+        }
+        else if (gameManager.selectedEntity.GetType() == typeof(Thief))
+        {
+            ThiefBtn.interactable = false;
+        }
+        else if (gameManager.selectedEntity.GetType() == typeof(Mage))
+        {
+           MageBtn.interactable = false;
+        }
+        else if (gameManager.selectedEntity.GetType() == typeof(Mage))
+        {
+          PriestBtn.interactable = false;
+        }
+    }
 
 }
+

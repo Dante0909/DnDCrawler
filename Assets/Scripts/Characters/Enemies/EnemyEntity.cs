@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyEntity : LivingEntities
 {
     [SerializeField] private GameObject selectorSprite;
+
+    public GameObject SelectorSprite { get => selectorSprite; set => selectorSprite = value; }
+
     protected void Skill(LivingEntities target)
     {
         throw new System.NotImplementedException();
@@ -34,19 +37,27 @@ public class EnemyEntity : LivingEntities
         }
     }
 
-    public void OnMouseEnter()
+    public void OnMouseOver()
     {
-        if (CombatManager.instance.isPlayerTurn)
+        if (CombatManager.instance.isPlayerTurn && CombatManager.instance.isSelectingEnemy)
         {
-            selectorSprite.SetActive(true);
+            SelectorSprite.SetActive(true);
         }
     }
 
     public void OnMouseExit()
     {
-        if (CombatManager.instance.isPlayerTurn)
+        if (CombatManager.instance.isPlayerTurn && CombatManager.instance.isSelectingEnemy)
         {
-            selectorSprite.SetActive(false);
+            SelectorSprite.SetActive(false);
+        }
+    }
+
+    public void OnMouseUp()
+    {
+        if (CombatManager.instance.isPlayerTurn && CombatManager.instance.isSelectingEnemy)
+        {
+            CombatManager.instance.PerformAction(this);
         }
     }
 

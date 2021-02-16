@@ -3,32 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-using System.Reflection;
+
 
 public class Inventory
 {
-    private List<ConsumableItem> consumableItems;
+    private List<ConsumableItemA> consumableItems;
     public event EventHandler OnItemListChanged;
-    List<ConsumableItem> IEnumCI;
+    IEnumerable<ConsumableItemA> IEnumCI;
 
     public Inventory()
     {
-        consumableItems = new List<ConsumableItem>();
-        IEnumCI = ReflectiveEnumerator.GetEnumerableOfType<ConsumableItem>();
+        consumableItems = new List<ConsumableItemA>();
+        IEnumCI = ReflectiveEnumerator.GetEnumerableOfType<ConsumableItemA>();
 
-        foreach (ConsumableItem c in IEnumCI)
-        {
-            Debug.Log(c);
-        }
     }
-    
-
-    
-    public void AddItem(Item item)
+    public void AddItem(ItemA item)
     {
-        if(item is ConsumableItem)
+        if(item is ConsumableItemA)
         {
-            foreach (ConsumableItem c in IEnumCI)                       //for all the classes of ConsumableItems
+            foreach (ConsumableItemA c in IEnumCI)                       //for all the classes of ConsumableItems
             {
                 if (c.GetType() == item.GetType())                      //is the item a manapotion, health potion, etc(dynamic)
                 {
@@ -36,7 +29,7 @@ public class Inventory
                         consumableItems.Where(x => x.GetType() == c.GetType()).First().amount++;
                                                                         //adds one to the count if yes
                     
-                    else consumableItems.Add((ConsumableItem)item);     //creates new entry if not
+                    else consumableItems.Add((ConsumableItemA)item);     //creates new entry if not
                     break;
                 }
             }
@@ -44,33 +37,21 @@ public class Inventory
             return;
         }
     }
-    public bool DetectItem<T>(List<ConsumableItem> Within, T type)
+    public bool DetectItem<T>(List<ConsumableItemA> genericList, T type)
     {
-        foreach (ConsumableItem c in Within)
+        foreach (ConsumableItemA c in genericList)
         {
             if (c.GetType() == type.GetType()) return true;
         }
 
         return false;
     }
-    public List<ConsumableItem> GetConsumableItems()
+    public List<ConsumableItemA> GetConsumableItems()
     {
         return consumableItems;
     }
-}
-public static class ReflectiveEnumerator            //returns all the subclasses of a class
-{
-    static ReflectiveEnumerator() { }
-
-    public static List<T> GetEnumerableOfType<T>(params object[] constructorArgs) where T : class
+    public List<ConsumableItemA> GetCombatItems()
     {
-        List<T> objects = new List<T>();
-        foreach (Type type in
-            Assembly.GetAssembly(typeof(T)).GetTypes()
-            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(T))))
-        {
-            objects.Add((T)Activator.CreateInstance(type, constructorArgs));
-        }
-        return objects;
+        return consumableItems.Where(x => x.isUsableInCombat == true).ToList();
     }
 }

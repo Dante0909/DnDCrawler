@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChoosePathState :State 
 {
+    public event EventHandler OnChoosePathStateEnter;
+    public event EventHandler OnChoosePathStateExit;
+
 
     public override void Enter()
     {

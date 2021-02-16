@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lockpick : ConsumableItem
+public class Lockpick : ConsumableItemA
 {
     public Lockpick()
     {
         name = "Lockpick";
         description = "Allows the thief to unlock alternate paths.";
+        isUsableInCombat = false;
     }
 
     public override Sprite GetSprite()
@@ -17,7 +18,7 @@ public class Lockpick : ConsumableItem
 
     public override void OnConsumed()
     {
-        
+        Debug.Log("lockpick");
     }
 
     public override void OnDelete()

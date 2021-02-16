@@ -6,6 +6,7 @@ public class CharacterButton : MonoBehaviour
 {
     [SerializeField] private LivingEntities selectedHero;
     [SerializeField] private GameObject attackSelection;
+    [SerializeField] private GameObject itemUI;
     private CombatManager combatManager;
     // Start is called before the first frame update
     void Start()
@@ -21,8 +22,24 @@ public class CharacterButton : MonoBehaviour
 
     public void SelectCharacter()
     {
-        combatManager.selectedEntity = selectedHero;
+        GameManager.instance.selectedEntity = selectedHero;
         attackSelection.SetActive(true);
         
+    }
+
+    public void AttackOption()
+    {
+        combatManager.isSelectingEnemy = true;
+        combatManager.option = CombatManager.action.Attack;
+    }
+    
+    public void SkillOption()
+    {
+        combatManager.isSelectingEnemy = true;
+        combatManager.option = CombatManager.action.Skill;
+    }
+    public void ItemOption()
+    {
+        itemUI.SetActive(true);
     }
 }

@@ -6,7 +6,12 @@ public class Testingshit : MonoBehaviour
 {
     private Inventory inventory;
     [SerializeField] private Ui_Inventory uiInventory;
-    
+
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {

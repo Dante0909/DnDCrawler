@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item
+public abstract class ItemA
 {
     public string name = "Default name";
     public string description = "Default description";

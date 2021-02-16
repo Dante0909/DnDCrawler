@@ -23,6 +23,7 @@ public abstract class LivingEntities : MonoBehaviour
     [SerializeField] private Skills skill;
 
     [SerializeField] private bool isDead = false;
+    [SerializeField] private bool didTurn = false;
 
     //Theoretical
     //[SerializedField] private Abilites classArchetype;
@@ -41,6 +42,7 @@ public abstract class LivingEntities : MonoBehaviour
     public bool IsDead { get => isDead; }
     public int AttackStat { get => attackStat; set => attackStat = value; }
     public Skills Skill { get => skill; set => skill = value; }
+    public bool DidTurn { get => didTurn; set => didTurn = value; }
 
     #endregion Properties
 
@@ -147,7 +149,7 @@ public abstract class LivingEntities : MonoBehaviour
     {
         return (int)(100 - (maxMotivation - Motivation*1.25-hitPenalty));
     }
-    protected virtual void UseSkill(LivingEntities target)
+    public virtual void UseSkill(LivingEntities target)
     {
         skill.CastSkill(target, this);
     }

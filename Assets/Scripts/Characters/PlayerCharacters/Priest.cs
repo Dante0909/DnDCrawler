@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Priest :LivingEntities
+public class Priest :PlayerCharacters
 {
-    //standin value
-    
 
     protected override void Start()
     {
@@ -13,11 +11,6 @@ public class Priest :LivingEntities
         base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
 
 }

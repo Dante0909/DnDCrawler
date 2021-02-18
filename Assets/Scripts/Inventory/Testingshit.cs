@@ -17,6 +17,7 @@ public class Testingshit : MonoBehaviour
     {
         inventory = new Inventory();
         uiInventory.SetInventory(inventory);
+        IntersectionAlgo.Yeet(5);
     }
 
     // Update is called once per frame

@@ -9,21 +9,38 @@ public class GameStates : State
     GameManager manager = GameManager.instance;
 
     //Could condense it down to 1 method that you pass the state but fuck it easier to read
+    private void TransitionShell(GameStates state)
+    {
+        nextState = state;
+        GameManager.instance.gameState.phase = Phase.EXIT;
+        state.phase = Phase.ENTER;
+    }
    public void TransitionToCombatState()
     {
-        nextState = manager.combatState;
-        phase = Phase.EXIT;
-        
+        TransitionShell(GameManager.instance.combatState);
     }
     public void  TransitionToPauseState()
     {
-        nextState = manager.pauseState;
-        phase = Phase.EXIT;
+
+        GameManager.instance.unPauseStates = GameManager.instance.gameState;
+        MonoBehaviour.print(GameManager.instance.gameState);
+        MonoBehaviour.print(GameManager.instance.unPauseStates);
+        nextState = GameManager.instance.pauseState;
+       
+        GameManager.instance.pauseState.phase = Phase.ENTER;
+        GameManager.instance.gameState.phase = Phase.EXIT;
+
+    }
+    public void UnPause()
+    {
+        MonoBehaviour.print(GameManager.instance.unPauseStates);
+        nextState = GameManager.instance.unPauseStates;
+        GameManager.instance.gameState.phase = Phase.EXIT;
+        GameManager.instance.unPauseStates.phase = Phase.ENTER;
     }
     public void TransitionToChoosePathState()
     {
-        nextState = manager.choosePathState;
-        phase = Phase.EXIT;
+        TransitionShell(GameManager.instance.dialogueState);
     }
 
 

@@ -5,9 +5,9 @@ using System;
 
 public class UseItemClick : MonoBehaviour
 {
-    public ConsumableItemA ci;
+    public Action useitem;
     public void Dumb()//dumb function to call the delegate
     {
-        ci.OnConsumed();
+        useitem();
     }
 }

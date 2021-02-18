@@ -11,22 +11,16 @@ public class PauseState : GameStates
 
     public override void Enter()
     {
-       
-
-
+        OnPauseStateTurnEnter?.Invoke(this, EventArgs.Empty);
         base.Enter();
     }
 
 
-    public override void Update()
-    {
-        base.Update();
-    }
+  
 
     public override void Exit()
     {
-        //Disable Pause Panel
-
+        OnPauseStateTurnExit?.Invoke(this, EventArgs.Empty);
         base.Exit();
     }
 

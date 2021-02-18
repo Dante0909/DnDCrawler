@@ -16,41 +16,21 @@ public class CombatState : GameStates
     public event EventHandler OnCombatStateTurnOff;
     public override void Enter()
     {
-        OnCombatStateTurnOn?.Invoke(this,EventArgs.Empty);
+        OnCombatStateTurnOn?.Invoke(this, EventArgs.Empty);
         CombatManager.instance.DecideWhoTurn();
         base.Enter();
     }
 
-  
-
     public override void Update()
     {
-        
+        GameManager.instance.PauseGame();
     }
-
 
     public override void Exit()
     {
         //turn off combat panels
-        gameManager.selectedEntity = null;
+        GameManager.instance.selectedEntity = null;
         OnCombatStateTurnOff?.Invoke(this, EventArgs.Empty);
         base.Exit();
     }
-
-   
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-    // Update is called once per frame
-  
-    
-
-
-   
-
-
-
-
 }

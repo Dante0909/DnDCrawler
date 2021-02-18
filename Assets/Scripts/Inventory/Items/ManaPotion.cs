@@ -22,6 +22,8 @@ public class ManaPotion : ConsumableItemA
 
     public override void OnConsumed()
     {
+        //What if we get the selected unit here and then use its restore mana
+        GameManager.instance.selectedEntity.HealMana(100);
         Debug.Log("mana potion");
     }
 

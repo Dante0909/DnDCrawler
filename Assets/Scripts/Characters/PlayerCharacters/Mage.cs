@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mage :LivingEntities
+public class Mage :PlayerCharacters
 {
     //lower base hp and attack 
     //Maybe a cast fireball attack
@@ -24,10 +24,6 @@ public class Mage :LivingEntities
 
 
     }
-
-  
-
-    
 
     protected override void Start()
     {

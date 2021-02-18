@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyEntity : LivingEntities
 {
     [SerializeField] private GameObject selectorSprite;
+    private StatsBar healthBar;
 
     public GameObject SelectorSprite { get => selectorSprite; set => selectorSprite = value; }
 
@@ -17,12 +18,18 @@ public class EnemyEntity : LivingEntities
     protected override void Start()
     {
         base.Start();
+        healthBar = GetComponentInChildren<StatsBar>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        healthBar.SetHealth(Health);
     }
     public void Attack(LivingEntities target)
     {

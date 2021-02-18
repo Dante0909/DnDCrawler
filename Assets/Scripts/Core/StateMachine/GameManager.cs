@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class GameManager : MonoBehaviour
 {
 
@@ -12,17 +12,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     //States
-    public State gameState;
+    public GameStates gameState;
     public CombatState combatState = new CombatState();
     public PauseState pauseState = new PauseState();
-    public ChoosePathState choosePathState = new ChoosePathState();
+    public DialogueState dialogueState = new DialogueState();
+    public GameStates unPauseStates = new GameStates();
 
 
     //Selection
     public LivingEntities selectedEntity;
 
-
-
+    
+   
 
 
     private void Awake()
@@ -41,6 +42,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameState=gameState.Process();
+        gameState = (GameStates)gameState.Process();
+    
+    }
+
+    public void PauseGame()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            gameState.TransitionToPauseState();
+        }
+    }
+
+    public void UnPauseGame()
+    {
+        pauseState.UnPause();
     }
 }

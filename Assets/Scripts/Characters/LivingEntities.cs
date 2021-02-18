@@ -56,7 +56,7 @@ public abstract class LivingEntities : MonoBehaviour
     /// Take damage allows for damage to be taken if health is lower than 0 Die will be called
     /// </summary>
     /// <param name="damage"></param>
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
@@ -152,5 +152,9 @@ public abstract class LivingEntities : MonoBehaviour
     public virtual void UseSkill(LivingEntities target)
     {
         skill.CastSkill(target, this);
+    }
+    public void LoseMotivation(int amount)
+    {
+        motivation -= amount;
     }
 }

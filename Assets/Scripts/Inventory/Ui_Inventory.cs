@@ -68,7 +68,7 @@ public class Ui_Inventory : MonoBehaviour
             itemTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, 0);
             itemTransform.Find("image").GetComponent<Image>().sprite = item.GetSprite();
             itemTransform.Find("amount").GetComponent<TextMeshProUGUI>().SetText(item.amount > 1 ? item.amount.ToString() : "");
-            itemTransform.GetComponentInChildren<UseItemClick>().ci = item;
+            itemTransform.GetComponentInChildren<UseItemClick>().useitem = item.OnConsumed;
             greyBackground.sizeDelta = new Vector2(defaultGreySize + itemSlotCellSize * x, 50);
             darkGreyBackground.sizeDelta = new Vector2(defaultDarkGreySize + itemSlotCellSize * x, 40);
             x++;

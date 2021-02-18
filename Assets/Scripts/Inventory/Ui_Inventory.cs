@@ -7,6 +7,8 @@ using System;
 
 public class Ui_Inventory : MonoBehaviour
 {
+    public static Ui_Inventory instance = null;
+
     private Inventory inventory;
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
@@ -15,10 +17,16 @@ public class Ui_Inventory : MonoBehaviour
     private float defaultGreySize;
     private float defaultDarkGreySize;
     private Func<IEnumerable> getItemsDelegate;
-    bool flag = false;
     private GameManager gameManager;
+
+
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         itemSlotContainer = transform.Find("ItemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("ItemSlotTemplate");
         greyBackground = transform.Find("GreyBackground").GetComponent<RectTransform>();

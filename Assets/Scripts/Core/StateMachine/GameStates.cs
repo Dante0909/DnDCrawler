@@ -42,6 +42,10 @@ public class GameStates : State
     {
         TransitionShell(GameManager.instance.dialogueState);
     }
+    public void TransitionToGameOverState()
+    {
+        TransitionShell(GameManager.instance.gameOverState);
+    }
 
 
 }

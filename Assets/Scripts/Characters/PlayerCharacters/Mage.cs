@@ -27,6 +27,10 @@ public class Mage :PlayerCharacters
 
     protected override void Start()
     {
+        health = 200;
+        attackStat = 20;
+        MaxHealth = 100;
+
         Skill = new Fireball();
         base.Start();
     }

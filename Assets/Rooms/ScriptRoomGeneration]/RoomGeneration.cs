@@ -76,19 +76,24 @@ public class RoomGeneration : MonoBehaviour
     }
     public void AddIntersection(Transform Initialposs)
     {
+        GameObject TempIntersect;
         switch (LatestDirection)
         {
             case Direction.Up:
-                Instantiate(Intersection, Initialposs.position + new Vector3(0, 0, 1f), Quaternion.identity);
+                TempIntersect=Instantiate(Intersection, Initialposs.position + new Vector3(0, 0, 1f), Quaternion.identity);
+                Destroy(TempIntersect.GetComponent<TileInfo>().wallBot);
                 break;
             case Direction.Left:
-                Instantiate(Intersection, Initialposs.position + new Vector3(-1 , 0, 0), Quaternion.identity);
+                TempIntersect = Instantiate(Intersection, Initialposs.position + new Vector3(-1 , 0, 0), Quaternion.identity);
+                Destroy(TempIntersect.GetComponent<TileInfo>().wallRigth);
                 break;
             case Direction.Down:
-                Instantiate(Intersection, Initialposs.position + new Vector3(0, 0, -1), Quaternion.identity);
+                TempIntersect = Instantiate(Intersection, Initialposs.position + new Vector3(0, 0, -1), Quaternion.identity);
+                Destroy(TempIntersect.GetComponent<TileInfo>().wallTop);
                 break;
             case Direction.Rigth:
-                Instantiate(Intersection, Initialposs.position + new Vector3(1, 0, 0), Quaternion.identity);
+                TempIntersect = Instantiate(Intersection, Initialposs.position + new Vector3(1, 0, 0), Quaternion.identity);
+                Destroy(TempIntersect.GetComponent<TileInfo>().wallLeft);
                 break;
             default:
                 break;
@@ -205,7 +210,7 @@ public class RoomGeneration : MonoBehaviour
             switch (Orientation)
             {
                 case Direction.Up:
-                    Teporrarrigameobject=Instantiate(room, Possition.GetComponent<TileInfo>().PossTop.transform.position, Quaternion.Euler(new Vector3(90, 180, 0)));
+                    Teporrarrigameobject=Instantiate(room, Possition.GetComponent<TileInfo>().PossTop.transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
                     temp = CreateHallway(Teporrarrigameobject.GetComponent<RoomScriptinfo>().ExitPoint.transform, Direction.Up, true);
                     AddIntersection(temp.transform);
 
@@ -216,7 +221,7 @@ public class RoomGeneration : MonoBehaviour
                     AddIntersection(temp.transform);
                     break;
                 case Direction.Down:
-                    Teporrarrigameobject=Instantiate(room, Possition.GetComponent<TileInfo>().PossBot.transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+                    Teporrarrigameobject=Instantiate(room, Possition.GetComponent<TileInfo>().PossBot.transform.position, Quaternion.Euler(new Vector3(90, 180, 0)));
                     temp = CreateHallway(Teporrarrigameobject.GetComponent<RoomScriptinfo>().ExitPoint.transform, Direction.Down, true);
                     AddIntersection(temp.transform);
                     break;

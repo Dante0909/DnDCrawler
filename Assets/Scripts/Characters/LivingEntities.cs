@@ -8,22 +8,23 @@ public abstract class LivingEntities : MonoBehaviour
 
 
     //Bar Related Stats
-    [SerializeField] private int health;
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int motivation;
-    private const int maxMotivation = 100;
+    protected int health;
+    protected int maxHealth;
+    protected int motivation;
+    protected const int maxMotivation = 100;
     //Not every class may have mana but to avoid alot of inheritance I will put mana in here
     //If thats not liked I can create a subclass MagicEntites where this can be placed
     //for now just for warrior and thief set mana to 0
-    [SerializeField] private int mana;
-    [SerializeField] private int maxMana;
+     protected int mana;
+     protected int maxMana;
 
+    [SerializeField] private StatsBar hpBar;
 
-    [SerializeField] private int attackStat;
-    [SerializeField] private Skills skill;
+     protected int attackStat;
+     protected Skills skill;
 
-    [SerializeField] private bool isDead = false;
-    [SerializeField] private bool didTurn = false;
+     protected bool isDead = false;
+     protected bool didTurn = false;
 
     //Theoretical
     //[SerializedField] private Abilites classArchetype;
@@ -47,7 +48,8 @@ public abstract class LivingEntities : MonoBehaviour
     #endregion Properties
 
     protected virtual void Start()
-    {
+    {    
+
         health = MaxHealth;
         mana = MaxMana;
     }
@@ -59,6 +61,7 @@ public abstract class LivingEntities : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         health -= damage;
+        hpBar.SetHealth(health);
         if (health <= 0)
         {
             Die();
@@ -71,6 +74,7 @@ public abstract class LivingEntities : MonoBehaviour
     public void HealHealth(int amount)
     {
         Health = Health + amount >= MaxHealth ? MaxHealth : Health + amount;
+        hpBar.SetHealth(health);
     }
     /// <summary>
     /// HealMana will heal mana by and amount will not overheal
@@ -84,7 +88,13 @@ public abstract class LivingEntities : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        //Add Death SFX and other functionalites 
+        if (GetComponent<Animator>() != null)
+        {
+            UnityEngine.Random.Range(0, 1);
+            GetComponent<Animator>().SetTrigger("Die");
+            GetComponent<Animator>().SetInteger("DeathAnim", 1);
+        }
+        CombatManager.instance.CheckIfAllHeroesDead();
 
     }
 

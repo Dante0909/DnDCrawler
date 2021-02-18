@@ -8,10 +8,10 @@ public class MotivRoom : RoomEffectsA
     private System.Type[] types;
     private string[] description = new string[4]
     {
-        "This rooms contains an armory. Pleases the warrior at the thief's expense.",
-        "This rooms contains jewels. Pleases the thief at the warrior's expense.",
-        "This rooms contains a religious altar. Pleases the priest at the mage's expense.",
-        "This rooms contains magic manuscripts. Pleases the warrior at the priest's expense."
+        "This rooms contains an armory. It will please the warrior at the thief's expense.\n",
+        "This rooms contains jewels. It will please the thief at the warrior's expense.\n",
+        "This rooms contains a religious altar. It will please the priest at the mage's expense.\n",
+        "This rooms contains magic manuscripts. It will please the mage at the priest's expense.\n"
 };
     public override bool IsActive { get => IsActive; set => IsActive = value; }
 

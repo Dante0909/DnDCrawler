@@ -6,20 +6,14 @@ public class Testingshit : MonoBehaviour
 {
     private Inventory inventory;
     [SerializeField] private Ui_Inventory uiInventory;
-
-    private void Awake()
-    {
-        
-    }
+    
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        inventory = new Inventory();
-        uiInventory.SetInventory(inventory);
-        IntersectionAlgo.Yeet(5);
-    }
 
+    }
     // Update is called once per frame
     void Update()
     {

@@ -12,14 +12,14 @@ public class Heal : Skills
 
 
     private const int healCost = 20;
-    private int healAmount;
+    private int healAmount=150;
 
     public override void CastSkill(LivingEntities target, LivingEntities self)
     {
         if (DiceRoller.RollDice() < self.CalcCritChance())
         {
            MonoBehaviour.print("Greater Heal");
-            target.HealHealth((int)(healAmount * 1.5));
+            target.HealHealth((int)(healAmount));
         }
         else
         {

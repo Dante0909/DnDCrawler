@@ -10,8 +10,26 @@ public class SoundRoom : RoomEffectsA
 
     public override string GetDescription()
     {
-        isNoisy = Random.value > 0.5f ? true : false; 
-        return "Growls can be heard";
+        if(Random.value > 0.5f)
+        {
+            isNoisy = true;
+            switch (Random.Range(0, 1))
+            {
+                case 1: return "You can hear monsters roaming.\n";
+                default: return "Growls can be heard coming from this way.\n";
+            }
+        }
+        else
+        {
+            isNoisy = false;
+            switch (Random.Range(0, 1))
+            {
+                case 1: return "There is a calming quietness emanating from this path.\n";
+                default: return "This avenue seems more peaceful.\n";
+            }
+        }
+        
+        
     }
     public bool GetNoisy()
     {

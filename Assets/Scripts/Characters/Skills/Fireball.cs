@@ -17,7 +17,7 @@ public override void CastSkill(LivingEntities target, LivingEntities self)
         if (self.Manacheck(fireBallCost))
         {
             self.DeductMana(fireBallCost);
-            self.Attack(target, (int)(self.AttackStat * 1.5));
+            self.Attack(target, (int)(self.AttackStat * 2));
         }
         else
         {

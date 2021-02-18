@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class EnemyEntity : LivingEntities
 {
     [SerializeField] private GameObject selectorSprite;
-    private StatsBar healthBar;
 
+    private Animator animator;
+    protected Camera main;
     public GameObject SelectorSprite { get => selectorSprite; set => selectorSprite = value; }
 
     protected void Skill(LivingEntities target)
@@ -17,19 +19,35 @@ public class EnemyEntity : LivingEntities
     // Start is called before the first frame update
     protected override void Start()
     {
+
+        animator = GetComponent<Animator>();
+        main = Camera.main;
+       
         base.Start();
-        healthBar = GetComponentInChildren<StatsBar>();
+        //ConstraintSource camera = new ConstraintSource();
+        //camera.sourceTransform = Camera.main.transform;
+        //camera.weight = 1;
+        //if (GetComponent<LookAtConstraint>())
+        //    GetComponent<LookAtConstraint>().SetSource(0, camera);
+    }
+
+    protected void LookAt()
+    {
+        Vector3 vector =main.transform.position - this.transform.position;
+        vector.y = 0;
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(vector), .1f);
+       
     }
 
     // Update is called once per frame
-    void Update()
+    virtual protected void Update()
     {
+            LookAt();
         
     }
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        healthBar.SetHealth(Health);
     }
     public void Attack(LivingEntities target)
     {
@@ -39,6 +57,9 @@ public class EnemyEntity : LivingEntities
             int critChance = Motivation / 5;
             int damageToDeal = DiceRoller.RollDice() < critChance ? (int)(AttackStat * 1.5) : AttackStat;
             target.TakeDamage(damageToDeal);
+
+            animator.SetTrigger("Attack");
+
             Debug.Log(target);
             Debug.Log(hitchance);
         }

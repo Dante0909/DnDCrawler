@@ -9,7 +9,11 @@ public class TreasureRoom : RoomEffectsA
 
     public override string GetDescription()
     {
-        return "Treasure";
+        switch (Random.Range(0, 1))
+        {
+            case 1: return "The room contains a valuable treasure.\n";
+            default: return "Riches await you.\n";
+        }
     }
     public override int GetID()
     {

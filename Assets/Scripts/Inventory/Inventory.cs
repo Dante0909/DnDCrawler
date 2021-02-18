@@ -15,6 +15,7 @@ public class Inventory
     {
         consumableItems = new List<ConsumableItemA>();
         IEnumCI = ReflectiveEnumerator.GetEnumerableOfType<ConsumableItemA>();
+        Ui_Inventory.instance.SetInventory(this);
 
     }
     public void AddItem(ItemA item)

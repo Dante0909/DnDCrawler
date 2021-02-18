@@ -27,7 +27,7 @@ public class CombatManager : MonoBehaviour
     private GameManager gameManager;
 
     //Cached Buttons
-    private Button WarriorBtn;
+    [SerializeField]private Button WarriorBtn;
     private Button MageBtn;
     private Button ThiefBtn;
     private Button PriestBtn;
@@ -177,6 +177,27 @@ public class CombatManager : MonoBehaviour
         {
           PriestBtn.interactable = false;
         }
+    }
+
+    public void CheckIfAllHeroesDead()
+    {
+        bool flag = false;
+        foreach(LivingEntities hero in allLivingHeroes)
+        {
+            if(!hero.IsDead)
+            {
+                flag = true;
+            }
+        }
+        if(flag)
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        gameManager.gameState.TransitionToGameOverState();
     }
 
 }

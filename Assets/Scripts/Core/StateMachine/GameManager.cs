@@ -17,18 +17,13 @@ public class GameManager : MonoBehaviour
     public PauseState pauseState = new PauseState();
     public DialogueState dialogueState = new DialogueState();
     public GameStates unPauseStates = new GameStates();
-
+    public GameOverState gameOverState = new GameOverState();
 
     //Selection
     public LivingEntities selectedEntity;
 
-    
-   
-
-
     private void Awake()
     {
-      
         if (instance == null)
             instance = this;
         else
@@ -37,13 +32,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameState = combatState;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(gameState!=null)
         gameState = (GameStates)gameState.Process();
-    
+       
     }
 
     public void PauseGame()
